@@ -29,6 +29,24 @@ body {
     display: none;
 }
 
+.timer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 215, 0, 0.2);
+    color: var(--accent-color);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    transition: color 0.3s ease;
+}
+
+.timer.warning {
+    color: #ff4d4d; /* لون أحمر للتحذير */
+}
+
 .question-text {
     text-align: left;
     margin-bottom: 20px;
@@ -77,7 +95,9 @@ body {
     transform: rotate(360deg);
 }
 
-.hidden { display: none; }
+.hidden {
+    display: none;
+}
 
 .success {
     color: #ffd700;
@@ -135,14 +155,13 @@ button:hover {
     font-weight: bold;
 }
 
-/* Points Notification Styles */
 .points-notification {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(255, 215, 0, 0.9); /* أصفر شفاف */
-    color: #2b1d3a; /* بنفسجي غامق للنص */
+    background: rgba(255, 215, 0, 0.9);
+    color: #2b1d3a;
     padding: 15px 25px;
     border-radius: 10px;
     font-size: 24px;
@@ -159,7 +178,6 @@ button:hover {
     100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
 }
 
-/* Popup Styles */
 .popup {
     position: fixed;
     top: 0;
@@ -262,4 +280,14 @@ body.light-mode .points-notification {
     background: rgba(255, 215, 0, 0.9);
     color: #3f2a56;
     box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+}
+
+body.light-mode .timer {
+    background: rgba(255, 215, 0, 0.2);
+    color: #ff8c00;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+body.light-mode .timer.warning {
+    color: #ff4d4d;
 }

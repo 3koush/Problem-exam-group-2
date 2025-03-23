@@ -88,6 +88,8 @@ let userMobile = "";
 let correctAnswers = 0;
 let score = 0;
 let hintUsed = false;
+let timeLeft = 600; // 10 دقايق بالثواني
+let timerInterval = null;
 
 const questionElem = document.getElementById("question");
 const codeSnippetElem = document.getElementById("code-snippet");
@@ -99,6 +101,7 @@ const quizContainer = document.getElementById("quizContainer");
 const popup = document.getElementById("popup");
 const scoreDisplay = document.getElementById("score-display");
 const pointsNotification = document.getElementById("points-notification");
+const timerElem = document.getElementById("timer");
 
 function startQuiz() {
     const fullName = document.getElementById("fullName").value.trim();
@@ -118,7 +121,26 @@ function startQuiz() {
     userMobile = mobile;
     popup.style.display = "none";
     quizContainer.style.display = "block";
+    startTimer();
     loadQuestion();
+}
+
+function startTimer() {
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerElem.innerText = `Time Left: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+        
+        if (timeLeft <= 60) {
+            timerElem.classList.add("warning");
+        }
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            endExamDueToTime();
+        }
+    }, 1000);
 }
 
 function checkDeviceAccess() {
@@ -159,7 +181,7 @@ function showPointsNotification(points) {
     pointsNotification.classList.remove("hidden");
     setTimeout(() => {
         pointsNotification.classList.add("hidden");
-    }, 1500); // نفس مدة الأنيميشن (1.5 ثانية)
+    }, 1500);
 }
 
 function loadQuestion() {
@@ -182,6 +204,8 @@ function loadQuestion() {
         hintElem.classList.add("hidden");
         chicksElem.innerHTML = "";
         scoreDisplay.style.display = "none";
+        timerElem.style.display = "none";
+        clearInterval(timerInterval);
         return;
     }
 
@@ -211,7 +235,7 @@ function checkAnswer(selected, correct) {
         feedbackElem.innerHTML = "✅ <span class='success'>Code Cracked!</span>";
         correctAnswers++;
         score += points;
-        showPointsNotification(points); // عرض النقاط اللي اكتسبتها
+        showPointsNotification(points);
         setTimeout(() => {
             feedbackElem.innerHTML = "";
             currentQuestion++;
@@ -234,6 +258,19 @@ function endExamDueToLives() {
     hintElem.classList.add("hidden");
     chicksElem.innerHTML = "";
     scoreDisplay.style.display = "none";
+    timerElem.style.display = "none";
+    clearInterval(timerInterval);
+    localStorage.setItem("examCompleted", "true");
+}
+
+function endExamDueToTime() {
+    questionElem.innerText = `انتهى الوقت ${userName}! النقاط: ${score.toFixed(1)}`;
+    codeSnippetElem.innerHTML = "";
+    optionsElem.innerHTML = "";
+    hintElem.classList.add("hidden");
+    chicksElem.innerHTML = "";
+    scoreDisplay.style.display = "none";
+    timerElem.style.display = "none";
     localStorage.setItem("examCompleted", "true");
 }
 
@@ -242,6 +279,7 @@ function resetExam() {
     currentQuestion = 0;
     correctAnswers = 0;
     score = 0;
+    timeLeft = 600;
     localStorage.removeItem("examCompleted");
     hintClickCount = 0;
     chicksElem.innerHTML = `
@@ -249,6 +287,9 @@ function resetExam() {
         <span class="chick">🌰</span>
         <span class="chick">🌰</span>
     `;
+    timerElem.innerText = `Time Left: 10:00`;
+    timerElem.classList.remove("warning");
+    clearInterval(timerInterval);
     loadQuestion();
 }
 
@@ -257,44 +298,3 @@ function showHint() {
     if (!hintUsed) {
         hintUsed = true;
     }
-    hintClickCount++;
-    if (hintClickCount >= 5) {
-        resetExam();
-    }
-}
-
-async function sendWhatsAppMessage() {
-    const recipientNumber = "+201011728299";
-    const message = `الفائز: ${userName}\nرقم الهاتف: ${userMobile}\nالنقاط: ${score.toFixed(1)}`;
-    
-    try {
-        const response = await fetch('https://webhook.site/your-unique-webhook-id', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                to: recipientNumber,
-                message: message
-            })
-        });
-        if (response.ok) {
-            console.log("Message sent successfully!");
-        } else {
-            console.error("Failed to send message.");
-        }
-    } catch (error) {
-        console.error("Error sending message:", error);
-    }
-
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${recipientNumber}?text=${encodedMessage}`;
-    window.open(whatsappUrl, "_blank");
-}
-
-function toggleTheme() {
-    document.body.classList.toggle("light-mode");
-    const icon = document.querySelector(".theme-toggle i");
-    icon.classList.toggle("fa-moon");
-    icon.classList.toggle("fa-sun");
-}
