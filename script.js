@@ -26,7 +26,8 @@ using namespace std;
 
 int main() {
     int a = 5;
-    cout << "The value of a is: " << a << endl
+    cout << "The value of a is: ";
+    cout << a << endl;
     return 0;
 }`,
         options: [
@@ -127,8 +128,8 @@ using namespace std;
 
 int main() {
     int arr[] = {1, 3, 5, 7, 9};
-    for (int i = 1; i < 5; i += 2) {
-        arr[i] = arr[i - 1] + arr[i + 1];
+    for (int i = 1; i < 5; i += 2){
+    arr[i]=arr[i-1]+arr[i+1];
     }
     for (int i = 0; i < 5; i++) {
         cout << arr[i] << " ";
