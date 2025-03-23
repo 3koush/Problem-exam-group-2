@@ -283,9 +283,9 @@ function resetExam() {
     localStorage.removeItem("examCompleted");
     hintClickCount = 0;
     chicksElem.innerHTML = `
-        <span class="chick">🌰</span>
-        <span class="chick">🌰</span>
-        <span class="chick">🌰</span>
+        <span class="chick">🐥</span>
+        <span class="chick">🐥</span>
+        <span class="chick">🐥</span>
     `;
     timerElem.innerText = `Time Left: 10:00`;
     timerElem.classList.remove("warning");
@@ -298,3 +298,44 @@ function showHint() {
     if (!hintUsed) {
         hintUsed = true;
     }
+    hintClickCount++;
+    if (hintClickCount >= 5) {
+        resetExam();
+    }
+}
+
+async function sendWhatsAppMessage() {
+    const recipientNumber = "+201011728299";
+    const message = `الفائز: ${userName}\nرقم الهاتف: ${userMobile}\nالنقاط: ${score.toFixed(1)}`;
+    
+    try {
+        const response = await fetch('https://webhook.site/your-unique-webhook-id', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                to: recipientNumber,
+                message: message
+            })
+        });
+        if (response.ok) {
+            console.log("Message sent successfully!");
+        } else {
+            console.error("Failed to send message.");
+        }
+    } catch (error) {
+        console.error("Error sending message:", error);
+    }
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${recipientNumber}?text=${encodedMessage}`;
+    window.open(whatsappUrl, "_blank");
+}
+
+function toggleTheme() {
+    document.body.classList.toggle("light-mode");
+    const icon = document.querySelector(".theme-toggle i");
+    icon.classList.toggle("fa-moon");
+    icon.classList.toggle("fa-sun");
+}
