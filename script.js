@@ -1,7 +1,14 @@
 const questions = [  
     {
         question: "What is the error in the following code?",
-        code: `#include <iostream>\nusing namespace std;\nint main() {\n    int arr[3] = {1, 2, 3, 4};\n    cout << arr[2];\n    return 0;\n}`,
+        code: `#include <iostream>
+using namespace std;
+
+int main() {
+    int arr[3] = {1, 2, 3, 4};
+    cout << arr[2];
+    return 0;
+}`,
         options: [
             "cout is not defined.",
             "int arr[3] should be float arr[3].",
@@ -14,7 +21,14 @@ const questions = [
     },
     {
         question: "What is the error in the following code?",
-        code: `#include <iostream>\nusing namespace std;\nint main() {\n    int a = 5;\n    cout << "The value of a is: " << a << endl\n    return 0;\n}`,
+        code: `#include <iostream>
+using namespace std;
+
+int main() {
+    int a = 5;
+    cout << "The value of a is: " << a << endl
+    return 0;
+}`,
         options: [
             "int a = 5; should be float a = 5;.",
             "cout is not defined.",
@@ -27,14 +41,29 @@ const questions = [
     },
     {
         question: "What is the output of the following code?",
-        code: `#include <iostream>\nusing namespace std;\nint main() {\n    int x = 3, y = 2;\n    cout << x / y * 2;\n    return 0;\n}`,
+        code: `#include <iostream>
+using namespace std;
+
+int main() {
+    int x = 3, y = 2;
+    cout << x / y * 2;
+    return 0;
+}`,
         options: ["1", "2", "3", "4", "5"],
         correct: 1,
         hint: "Pay attention to the order of arithmetic operations."
     },
     {
         question: "What is the error in the following code?",
-        code: `#include <iostream>\nusing namespace std;\nint main() {\n    int x;\n    cin >> x;\n    cout << "You entered: " x;\n    return 0;\n}`,
+        code: `#include <iostream>
+using namespace std;
+
+int main() {
+    int x;
+    cin >> x;
+    cout << "You entered: " x;
+    return 0;
+}`,
         options: [
             "Missing << after cout.",
             "cin is not defined.",
@@ -46,28 +75,66 @@ const questions = [
     },
     {
         question: "What is the output of the following code?",
-        code: `#include <iostream>\nusing namespace std;\nint main() {\n    int x = 10;\n    cout << (x == 10);\n    return 0;\n}`,
+        code: `#include <iostream>
+using namespace std;
+
+int main() {
+    int x = 10;
+    cout << (x == 10);
+    return 0;
+}`,
         options: ["0", "1", "10"],
         correct: 1,
         hint: "Pay attention to the result of the logical comparison."
     },
     {
         question: "Complete the following code with the appropriate type?",
-        code: `#include <iostream>\nusing namespace std;\nint main() {\n    ______ name = "John";\n    cout << name;\n    return 0;\n}`,
+        code: `#include <iostream>
+using namespace std;
+
+int main() {
+    ______ name = "John";
+    cout << name;
+    return 0;
+}`,
         options: ["char", "string", "int", "text"],
         correct: 1,
         hint: "Pay attention to the appropriate data type for storing text."
     },
     {
         question: "What is the output of the following code?",
-        code: `#include <iostream>\nusing namespace std;\n\nvoid AKOUSH(int &x) {\n    x = 10;\n}\n\nint main() {\n    int a = 5;\n    AKOUSH(a);\n    cout << a;\n    return 0;\n}`,
+        code: `#include <iostream>
+using namespace std;
+
+void AKOUSH(int &x) {
+    x = 10;
+}
+
+int main() {
+    int a = 5;
+    AKOUSH(a);
+    cout << a;
+    return 0;
+}`,
         options: ["5", "10", "15", "20", "25"],
         correct: 1,
         hint: "Pay attention to how the variable is passed by reference."
     },
     {
         question: "What is the output of the following code?",
-        code: `#include <iostream>\nusing namespace std;\nint main() {\n    int arr[] = {1, 3, 5, 7, 9};\n    for (int i = 1; i < 5; i += 2) {\n    arr[i] = arr[i - 1] + arr[i + 1];\n    }\n    for (int i = 0; i < 5; i++) {\n    cout << arr[i] << " ";\n    }\n    return 0;\n}`,
+        code: `#include <iostream>
+using namespace std;
+
+int main() {
+    int arr[] = {1, 3, 5, 7, 9};
+    for (int i = 1; i < 5; i += 2) {
+        arr[i] = arr[i - 1] + arr[i + 1];
+    }
+    for (int i = 0; i < 5; i++) {
+        cout << arr[i] << " ";
+    }
+    return 0;
+}`,
         options: [
             "1 3 5 7 9",
             "1 6 5 7 9",
@@ -108,8 +175,8 @@ function startQuiz() {
     const mobile = document.getElementById("mobile").value.trim();
 
     const nameParts = fullName.split(" ");
-    if (nameParts.length !== 4) {
-        alert("Please enter your full quadruple name (e.g., First Second Third Fourth)!");
+    if (nameParts.length !== 3) {
+        alert("Please enter your full triple name (e.g., First Second Third)!");
         return;
     }
     if (!/^\d{10,15}$/.test(mobile)) {
@@ -212,7 +279,10 @@ function loadQuestion() {
     hintUsed = false;
     const q = questions[currentQuestion];
     questionElem.innerText = q.question;
-    codeSnippetElem.innerHTML = `<pre>${q.code}</pre>`;
+    
+    // عرض الكود كنص خام مع الحفاظ على التنسيق
+    codeSnippetElem.textContent = q.code;
+    
     hintElem.innerText = q.hint;
     hintElem.classList.add("hidden");
     optionsElem.innerHTML = "";
@@ -334,8 +404,16 @@ async function sendWhatsAppMessage() {
 }
 
 function toggleTheme() {
-    document.body.classList.toggle("light-mode");
+    const body = document.body;
     const icon = document.querySelector(".theme-toggle i");
-    icon.classList.toggle("fa-moon");
-    icon.classList.toggle("fa-sun");
+    
+    body.classList.toggle("light-mode");
+    
+    if (body.classList.contains("light-mode")) {
+        icon.classList.remove("fa-moon");
+        icon.classList.add("fa-sun");
+    } else {
+        icon.classList.remove("fa-sun");
+        icon.classList.add("fa-moon");
+    }
 }
