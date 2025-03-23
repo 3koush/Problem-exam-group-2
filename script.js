@@ -281,7 +281,6 @@ function loadQuestion() {
     const q = questions[currentQuestion];
     questionElem.innerText = q.question;
     
-    // عرض الكود كنص خام مع الحفاظ على التنسيق
     codeSnippetElem.textContent = q.code;
     
     hintElem.innerText = q.hint;
@@ -375,32 +374,15 @@ function showHint() {
     }
 }
 
-async function sendWhatsAppMessage() {
-    const recipientNumber = "+201011728299";
+function sendWhatsAppMessage() {
+    const recipientNumber = "+201011728299"; // رقم المستلم
     const message = `الفائز: ${userName}\nرقم الهاتف: ${userMobile}\nالنقاط: ${score.toFixed(1)}`;
     
-    try {
-        const response = await fetch('https://webhook.site/your-unique-webhook-id', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                to: recipientNumber,
-                message: message
-            })
-        });
-        if (response.ok) {
-            console.log("Message sent successfully!");
-        } else {
-            console.error("Failed to send message.");
-        }
-    } catch (error) {
-        console.error("Error sending message:", error);
-    }
-
+    // ترميز الرسالة لتكون صالحة في رابط URL
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${recipientNumber}?text=${encodedMessage}`;
+    
+    // فتح رابط واتساب مباشرة في نافذة جديدة
     window.open(whatsappUrl, "_blank");
 }
 
