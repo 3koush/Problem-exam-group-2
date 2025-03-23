@@ -1,10 +1,10 @@
 :root {
-    --primary-bg: #2b1d3a; /* بنفسجي غامق */
-    --secondary-bg: #3f2a56; /* بنفسجي متوسط */
-    --text-color: #c0c0c0; /* فضي */
-    --accent-color: #ffd700; /* أصفر ذهبي */
-    --code-bg: #352545; /* بنفسجي غامق للكود */
-    --shadow: 0 0 20px rgba(255, 215, 0, 0.4); /* ظل أصفر ناعم */
+    --primary-bg: #2b1d3a;
+    --secondary-bg: #3f2a56;
+    --text-color: #c0c0c0;
+    --accent-color: #ffd700;
+    --code-bg: #352545;
+    --shadow: 0 0 20px rgba(255, 215, 0, 0.4);
 }
 
 body {
@@ -20,7 +20,7 @@ body {
     max-width: 800px;
     margin: 80px auto;
     padding: 30px;
-    background: rgba(63, 42, 86, 0.9); /* خلفية شفافة بنفسجية */
+    background: rgba(63, 42, 86, 0.9);
     border-radius: 15px;
     box-shadow: var(--shadow);
     position: relative;
@@ -73,14 +73,14 @@ body {
 }
 
 .hint-btn:hover {
-    color: #ffff99; /* أصفر فاتح عند الهوفر */
+    color: #ffff99;
     transform: rotate(360deg);
 }
 
 .hidden { display: none; }
 
 .success {
-    color: #ffd700; /* أصفر ذهبي للنجاح */
+    color: #ffd700;
     font-size: 24px;
     font-weight: bold;
     text-shadow: 0 0 10px #ffd700;
@@ -88,7 +88,7 @@ body {
 }
 
 .wrong {
-    color: #ff4d4d; /* أحمر فاتح للخطأ */
+    color: #ff4d4d;
     font-size: 24px;
     font-weight: bold;
     text-shadow: 0 0 10px #ff4d4d;
@@ -96,7 +96,7 @@ body {
 }
 
 button {
-    background: linear-gradient(45deg, var(--accent-color), #ff8c00); /* من أصفر لبرتقالي */
+    background: linear-gradient(45deg, var(--accent-color), #ff8c00);
     border: none;
     border-radius: 10px;
     padding: 10px 20px;
@@ -127,6 +127,36 @@ button:hover {
 
 #hint {
     color: #fff;
+}
+
+#score-display {
+    font-size: 20px;
+    color: #ffd700;
+    font-weight: bold;
+}
+
+/* Points Notification Styles */
+.points-notification {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 215, 0, 0.9); /* أصفر شفاف */
+    color: #2b1d3a; /* بنفسجي غامق للنص */
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+    animation: pointsPop 1.5s ease-in-out forwards;
+    z-index: 10;
+}
+
+@keyframes pointsPop {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    20% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
 }
 
 /* Popup Styles */
@@ -194,8 +224,8 @@ button:hover {
 }
 
 body.light-mode {
-    background: linear-gradient(135deg, #f5e6ff, #d9c2f0); /* بنفسجي فاتح جدًا */
-    color: #3f2a56; /* بنفسجي متوسط للنص */
+    background: linear-gradient(135deg, #f5e6ff, #d9c2f0);
+    color: #3f2a56;
 }
 
 body.light-mode .quiz-container {
@@ -204,7 +234,7 @@ body.light-mode .quiz-container {
 }
 
 body.light-mode .code-box {
-    background: #e6d9f2; /* بنفسجي فاتح جدًا */
+    background: #e6d9f2;
     color: #3f2a56;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -222,4 +252,14 @@ body.light-mode .popup-content input {
     background: #e6d9f2;
     color: #3f2a56;
     border: 1px solid #ffd700;
+}
+
+body.light-mode #score-display {
+    color: #3f2a56;
+}
+
+body.light-mode .points-notification {
+    background: rgba(255, 215, 0, 0.9);
+    color: #3f2a56;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
 }
